@@ -1,0 +1,50 @@
+#BORCUNU 60 GÜNDEN FAZLA ÖDEMEYENLERİN KARTLARI GEÇİCİ OLARAK KAPATILIR. BU YÜZDEN BURAYI SINIR SEÇTİM.
+from sklearn.cluster import KMeans
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import seaborn as sns
+Kmean = KMeans(n_clusters=2)
+Kmean.fit(merged_dum)
+
+identified_clusters = Kmean.fit_predict(merged_dum)
+identified_clusters
+
+data_with_clusters = merged_dum.copy()
+data_with_clusters['Clusters'] = identified_clusters 
+plt.scatter(data_with_clusters['DAYS_BIRTH'],data_with_clusters['DAYS_EMPLOYED'],c=data_with_clusters['Clusters'],cmap='rainbow')
+
+
+
+best_cust=merged[merged['STATUS'] == '1']
+best_desc=best_cust.describe()
+en_kötü=merged[merged['STATUS']>'3']
+en_kötü_desc=en_kötü.describe()
+
+
+exp=merged[merged['STATUS']=='4']
+exp = exp.reset_index(drop=True)
+exp2=exp[exp['max_statu_count']<4]
+
+
+best_cust['FLAG_OWN_CAR'] = best_cust['FLAG_OWN_CAR'].replace(['N','Y'],[0,1])
+exp['FLAG_OWN_CAR'] = exp['FLAG_OWN_CAR'].replace(['N','Y'],[0,1])
+
+
+best_cust['FLAG_OWN_CAR'].corr(exp2['FLAG_OWN_CAR'])
+
+
+recc=record[record.ID == 5092090]
+
+#---------
+en_iyi=merged[merged['STATUS']<'3']
+en_iyi['derece'] = 'good'
+
+en_kötü=merged[merged['STATUS']>'3']
+en_kötü_desc=en_kötü.describe()
+en_kötü['derece'] = 'bad'
+
+
+
+
+#deneme random forest
+#df2=df[['FLAG_OWN_CAR','FLAG_OWN_REALTY','CNT_CHILDREN','AMT_INCOME_TOTAL','NAME_INCOME_TYPE','NAME_EDUCATION_TYPE', 'NAME_HOUSING_TYPE', 'FLAG_PHONE', 'CNT_FAM_MEMBERS']]
